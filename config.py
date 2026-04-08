@@ -18,7 +18,7 @@ CENTER_X     = FRAME_WIDTH // 2
 CENTER_Y     = FRAME_HEIGHT // 2
 
 # Webots Tracker Drone Intrinsics
-FOCAL_LENGTH_PX = 482.84  
+FOCAL_LENGTH_PX = 482.84
 REAL_TARGET_WIDTH_M = 0.20 
 
 FOV_X_DEG = 62.2
@@ -90,9 +90,12 @@ KI_FAR  = 0.0
 KD_FAR  = 0.2
 
 # In your config.py, update the Yaw settings to this:
-YAW_KP = 0.005          # Lower this from 0.01 so it doesn't overshoot
-MAX_YAW_RATE = 0.8       # rad/s
-YAW_MAX_ACCEL = 1.5      # rad/s^2 (How fast it's allowed to speed up/slow down its spin)
+# ==========================================
+# YAW (TURRET) SETTINGS
+# ==========================================
+YAW_KP = 0.008           # Increased slightly for a punchier reaction
+MAX_YAW_RATE = 1.5       # (rad/s) Doubled top speed! (~85 deg/sec)
+YAW_MAX_ACCEL = 4.0      # (rad/s^2) Massive braking power to stop overshooting     # rad/s^2 (How fast it's allowed to speed up/slow down its spin)
 
 # ==========================================
 # 8. FEED-FORWARD (Direct from v5)
@@ -106,8 +109,21 @@ FF_MAX_PX    = 80.0
 # ==========================================
 TARGET_DISTANCE_M = 2.0  # Maintain exactly 2 meters above target
 MAX_VZ = 0.5             # Max climb/drop speed (m/s)
-
+MAX_CEILING_M = 3.5
 # Z-axis (Altitude) PID Gains
 KP_Z = 0.8
 KI_Z = 0.0
 KD_Z = 0.1
+
+
+# # ==========================================
+# # 7. DYNAMIC METRIC PID GAINS
+# # ==========================================
+# # These are your BASE gains, tuned for when the drone is exactly 1.0 meter away from the target.
+# BASE_KP = 0.8
+# BASE_KI = 0.0   # Keep at 0.0 until ArduPilot is perfectly tuned
+# BASE_KD = 0.1
+
+# # Safety limit: The drone is never allowed to multiply the base gain by more than this number, 
+# # even if the target is 50 meters away. (Prevents catastrophic math explosions).
+# MAX_GAIN_MULTIPLIER = 4.0
